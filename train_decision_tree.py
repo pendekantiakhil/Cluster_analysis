@@ -1,26 +1,26 @@
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import f1_score
+import joblib  # For saving/loading the model
+import boto3  # For interacting with AWS S3
 
-# Load datasets
+# Define S3 bucket details
+bucket_name = "<YOUR_S3_BUCKET_NAME>"  # Replace with your bucket name
+model_file_name = "decision_tree_model.pkl"
+
+# Load training dataset
 train_data = pd.read_csv("datasets/TrainingDataset.csv")
-validation_data = pd.read_csv("datasets/ValidationDataset.csv")
-
-# Prepare training data
 X_train = train_data.drop("target", axis=1)
 y_train = train_data["target"]
-
-# Prepare validation data
-X_val = validation_data.drop("target", axis=1)
-y_val = validation_data["target"]
 
 # Train Decision Tree Classifier
 model = DecisionTreeClassifier()
 model.fit(X_train, y_train)
 
-# Make predictions on the validation set
-y_pred = model.predict(X_val)
+# Save the trained model locally
+joblib.dump(model, model_file_name)
+print(f"Model saved locally as {model_file_name}")
 
-# Calculate F1 score
-f1 = f1_score(y_val, y_pred, average="weighted")  # Use 'weighted' for multi-class
-print(f"F1 Score: {f1}")
+# Upload the model to S3
+s3 = boto3.client("s3")
+s3.upload_file(model_file_name, bucket_name, model_file_name)
+print(f"Model uploaded to S3 bucket '{bucket_name}' as '{model_file_name}'")
