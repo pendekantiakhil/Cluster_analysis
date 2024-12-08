@@ -1,2 +1,2 @@
-# aws_pa2
+# Cluster analysis using spark
 cloud_assignment2
