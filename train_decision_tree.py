@@ -27,6 +27,6 @@ print(f"Model saved locally as {model_file_name}")
 
 # Upload the model to S3
 s3 = boto3.client("s3")
-bucket_name = "<YOUR_S3_BUCKET_NAME>"  # Replace with your S3 bucket name
+bucket_name = "<cloudclusteraws>"  # Replace with your S3 bucket name
 s3.upload_file(model_file_name, bucket_name, model_file_name)
 print(f"Model uploaded to S3 bucket '{bucket_name}' as '{model_file_name}'")
