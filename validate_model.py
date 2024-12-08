@@ -3,18 +3,24 @@ import joblib
 import boto3
 from sklearn.metrics import accuracy_score
 
-# Load validation dataset
-validation_data = pd.read_csv("datasets/ValidationDataset.csv")
-X_val = validation_data.drop("target", axis=1)
-y_val = validation_data["target"]
+# Define S3 bucket details
+bucket_name = "cloudclusteraws"  # Your S3 bucket name
+model_file_name = "decision_tree_model.pkl"
+validation_data_url = "https://raw.githubusercontent.com/pendekantiakhil/Cluster_analysis/main/datasets/ValidationDataset%20(2).csv"
+
+# Load validation dataset directly from GitHub
+validation_data = pd.read_csv(validation_data_url, sep=";")
+X_val = validation_data.drop("quality", axis=1)  # Change "target" to "quality"
+y_val = validation_data["quality"]
 
 # Download the model from S3
 s3 = boto3.client("s3")
-bucket_name = "<YOUR_S3_BUCKET_NAME>"
-s3.download_file(bucket_name, "decision_tree_model.pkl", "decision_tree_model.pkl")
+s3.download_file(bucket_name, model_file_name, model_file_name)
+print(f"Model downloaded from S3 bucket '{bucket_name}'")
 
 # Load the model
-model = joblib.load("decision_tree_model.pkl")
+model = joblib.load(model_file_name)
+print("Model loaded successfully")
 
 # Make predictions and evaluate
 y_pred = model.predict(X_val)
