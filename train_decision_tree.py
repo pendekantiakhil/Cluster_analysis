@@ -4,11 +4,11 @@ from sklearn.metrics import f1_score
 import joblib
 import boto3
 
-# Define GitHub raw file URLs
-training_data_url = "https://raw.githubusercontent.com/pendekantakhil/Cluster_analysis/main/datasets/TrainingDataset.csv"
-validation_data_url = "https://raw.githubusercontent.com/pendekantakhil/Cluster_analysis/main/datasets/ValidationDataset%20(2).csv"
+# Define correct raw URLs
+training_data_url = "https://raw.githubusercontent.com/pendekantiakhil/Cluster_analysis/main/datasets/TrainingDataset"
+validation_data_url = "https://raw.githubusercontent.com/pendekantiakhil/Cluster_analysis/main/datasets/ValidationDataset%20(2).csv"
 
-# Load datasets directly from GitHub
+# Load datasets directly from GitHub raw URLs
 train_data = pd.read_csv(training_data_url)
 validation_data = pd.read_csv(validation_data_url)
 
@@ -27,6 +27,6 @@ print(f"Model saved locally as {model_file_name}")
 
 # Upload the model to S3
 s3 = boto3.client("s3")
-bucket_name = "<cloudclusteraws>"  # Replace with your S3 bucket name
+bucket_name = "<YOUR_S3_BUCKET_NAME>"  # Replace with your S3 bucket name
 s3.upload_file(model_file_name, bucket_name, model_file_name)
 print(f"Model uploaded to S3 bucket '{bucket_name}' as '{model_file_name}'")
