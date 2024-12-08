@@ -1,14 +1,14 @@
+# Use Python slim image
 FROM python:3.9-slim
 
-# Install dependencies
-RUN pip install boto3 pandas scikit-learn joblib
-
-# Copy the validation script and datasets
-COPY validate_model.py /app/validate_model.py
-COPY datasets/ValidationDataset.csv /app/ValidationDataset.csv
-
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Run the script
+# Install dependencies
+RUN pip install pandas joblib boto3 scikit-learn
+
+# Copy the validation script
+COPY validate_model.py /app/validate_model.py
+
+# Set the command to run the validation script
 CMD ["python", "validate_model.py"]
