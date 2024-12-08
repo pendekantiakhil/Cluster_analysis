@@ -9,12 +9,12 @@ training_data_url = "https://raw.githubusercontent.com/pendekantiakhil/Cluster_a
 validation_data_url = "https://raw.githubusercontent.com/pendekantiakhil/Cluster_analysis/main/datasets/ValidationDataset%20(2).csv"
 
 # Load datasets directly from GitHub raw URLs
-train_data = pd.read_csv(training_data_url)
-validation_data = pd.read_csv(validation_data_url)
+train_data = pd.read_csv(training_data_url, sep=";")  # Use sep=";" for delimiter
+validation_data = pd.read_csv(validation_data_url, sep=";")  # Use sep=";" for delimiter
 
 # Prepare training data
-X_train = train_data.drop("target", axis=1)
-y_train = train_data["target"]
+X_train = train_data.drop("quality", axis=1)  # Target variable is 'quality'
+y_train = train_data["quality"]
 
 # Train Decision Tree Classifier
 model = DecisionTreeClassifier()
