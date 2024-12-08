@@ -9,8 +9,8 @@ model_file_name = "decision_tree_model.pkl"
 validation_data_url = "https://raw.githubusercontent.com/pendekantiakhil/Cluster_analysis/main/datasets/ValidationDataset%20(2).csv"
 
 # Load validation dataset directly from GitHub
-validation_data = pd.read_csv(validation_data_url, sep=";")
-X_val = validation_data.drop("quality", axis=1)  # Change "target" to "quality"
+validation_data = pd.read_csv(validation_data_url, sep=";", quotechar='"')  # Adjusted for delimiter and quotes
+X_val = validation_data.drop("quality", axis=1)  # Target variable is 'quality'
 y_val = validation_data["quality"]
 
 # Download the model from S3
